@@ -4,8 +4,8 @@ const Env = require('../../config/env');
 const logger = require('../../config/logger');
 const LocaleService = require('./locale.service');
 
-const WebLocaleAdapter = new LocaleService(Env.LOCO_WEB_PROJECT_KEY);
-const HtmlLocaleAdapter = new LocaleService(Env.LOCO_HTML_PROJECT_KEY);
+const WebLocaleService = new LocaleService(Env.LOCO_WEB_PROJECT_KEY);
+const HtmlLocaleService = new LocaleService(Env.LOCO_HTML_PROJECT_KEY);
 
 /**
  * @module LocaleProcessor
@@ -23,14 +23,16 @@ const LocaleWorker = {
 
     debug('processing web locales');
 
-    const untranslated = await WebLocaleAdapter.getUntranslatedTerms();
+    const untranslated = await WebLocaleService.getUntranslatedTerms();
     const translations = await Promise.mapSeries(untranslated, async (term) => {
-      const translation = await LocaleService.translateTerm(term);
-      translation.term = term[Object.keys(term)[0]].id;
-      return translation;
+      const translation = await WebLocaleService.translateTerm(term);
+      return {
+        source: term[Object.keys(term)[0]].id,
+        locales: translation,
+      };
     });
 
-    console.log(translations);
+    return Promise.each(translations, t => WebLocaleService.addTempLocales(t));
   },
 
   /**
@@ -41,14 +43,16 @@ const LocaleWorker = {
 
     debug('processing html locales');
 
-    const untranslated = await HtmlLocaleAdapter.getUntranslatedTerms();
-    const translations = await Promise.mapSeries(untranslated, async (term) => {
-      const translation = await LocaleService.translateTerm(term);
-      translation.term = term[Object.keys(term)[0]].id;
-      return translation;
-    });
-
-    console.log(translations);
+    // const untranslated = await HtmlLocaleService.getUntranslatedTerms();
+    // const translations = await Promise.mapSeries(untranslated, async (term) => {
+    //   const translation = await LocaleService.translateTerm(term);
+    //   return {
+    //     source: term[Object.keys(term)[0]].id,
+    //     locales: translation,
+    //   };
+    // });
+    //
+    // return Promise.each(translations, t => HtmlLocaleService.addTempLocales(t));
   },
 
   /**

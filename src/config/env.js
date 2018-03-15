@@ -67,6 +67,13 @@ class Env {
   static get LOCALE_PROCESSOR_PREFERRED_LANGUAGE() {
     return process.env.LOCALE_PROCESSOR_PREFERRED_LANGUAGE;
   }
+
+  /**
+   * @return {String}
+   */
+  static get GLOSSARY_FILE_PATH() {
+    return process.env.GLOSSARY_FILE_PATH;
+  }
 }
 
 module.exports = Env;

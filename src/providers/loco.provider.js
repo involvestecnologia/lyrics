@@ -1,5 +1,7 @@
 const debug = require('../config/debug')('providers:loco');
 const axios = require('axios');
+const qs = require('querystring');
+const logger = require('../config/logger');
 
 const LOCO_BASE_URL = 'https://localise.biz';
 
@@ -14,6 +16,25 @@ class LocoProvider {
         Authorization: `Loco ${projectKey}`,
       },
     });
+  }
+
+  /**
+   * @param {String} term
+   * @param {String} locale
+   * @param {String} translation
+   * @return {Promise<void>}
+   */
+  async addTempLocale(term, locale, translation) {
+    debug(`adding translation for term "${term}"`);
+
+    try {
+      await this.request.post(`/api/translations/${term}/${locale}`, translation);
+      await this.request.post(`/api/translations/${term}/${locale}/flag`, qs.stringify({
+        flag: 'provisional',
+      }));
+    } catch (err) {
+      logger.error(`Error creating translation for term "${term}", locale "${locale}"`, err);
+    }
   }
 
   /**

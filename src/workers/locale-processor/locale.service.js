@@ -9,13 +9,14 @@ const preferredLang = Env.LOCALE_PROCESSOR_PREFERRED_LANGUAGE;
 class LocaleService {
   constructor(projectKey) {
     this.Loco = new LocoProvider(projectKey);
+    this.GoogleTranslate = new GoogleTranslateProvider();
   }
 
   /**
    * @param term
    * @return {Promise<Object[]>}
    */
-  static translateTerm(term) {
+  translateTerm(term) {
     const locales = Object.keys(term);
     const termId = term[locales[0]].id;
 
@@ -28,11 +29,28 @@ class LocaleService {
     locales.filter(locale => (locale !== preferred)).forEach((locale) => {
       debug(`translating term "${termId}" for locale "${locale}"`);
 
-      props[locale] = GoogleTranslateProvider
+      props[locale] = this.GoogleTranslate
         .translate(term[preferred].translation, preferred, locale);
     });
 
     return Promise.props(props);
+  }
+
+  /**
+   * @param {Object} translation
+   * @return {Promise<void>}
+   */
+  async addTempLocales(translation) {
+    debug(`creating temp locales for ${translation.source}`);
+
+    const locales = Object.keys(translation.locales);
+
+    const promises = locales.map((locale) => {
+      debug(`creating temp locale for ${translation.source}, locale: ${locale}, translation: ${translation.locales[locale]}`);
+      return this.Loco.addTempLocale(translation.source, locale, translation.locales[locale]);
+    });
+
+    return Promise.all(promises);
   }
 
   /**
@@ -46,7 +64,7 @@ class LocaleService {
 
     const untranslatedAssets = assets.filter(asset => asset.progress.untranslated > 0);
 
-    return Promise.mapSeries(untranslatedAssets, (asset) => {
+    return Promise.mapSeries(untranslatedAssets.slice(0, 10), (asset) => {
       const props = {};
       locales.forEach((locale) => {
         props[locale.code] = this.Loco.getTranslation(asset.id, locale.code);

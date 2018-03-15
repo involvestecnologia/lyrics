@@ -9,7 +9,7 @@ const cors = require('@koa/cors');
 /**
  * Bootstraps Koa application.
  *
- * @return {Promise<Application>}
+ * @return {Promise<Koa>}
  */
 const bootstrap = async () => {
   debug('bootstrapping application');
