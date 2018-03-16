@@ -41,17 +41,14 @@ class Env {
   }
 
   /**
+   * localise.biz api keys(read/write) separated by comma
+   *
+   * @see https://localise.biz/help/developers/api-keys
+   * @example Nn1lx9ku_X2s345uhOHMQDwMlmrI9tNa,jasd681WfgubqycTlO-Mw2c4eZiVlQ5T
    * @return {String}
    */
-  static get LOCO_WEB_PROJECT_KEY() {
-    return process.env.LOCO_WEB_PROJECT_KEY;
-  }
-
-  /**
-   * @return {String}
-   */
-  static get LOCO_HTML_PROJECT_KEY() {
-    return process.env.LOCO_HTML_PROJECT_KEY;
+  static get LOCO_PROJECT_KEYS() {
+    return process.env.LOCO_PROJECT_KEYS;
   }
 
   /**
