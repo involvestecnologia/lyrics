@@ -10,12 +10,24 @@ const LOCO_BASE_URL = 'https://localise.biz';
  */
 class LocoProvider {
   constructor(projectKey) {
+    this.projectKey = projectKey;
     this.request = axios.create({
       baseURL: LOCO_BASE_URL,
       headers: {
         Authorization: `Loco ${projectKey}`,
       },
     });
+  }
+
+  async getProjectInfo() {
+    debug('retrieving project info');
+
+    try {
+      const { data: info } = await this.request.get('/api/auth/verify');
+      return info;
+    } catch (err) {
+      logger.error(`Error retrieving project info for key "${this.projectKey}"`, err);
+    }
   }
 
   /**

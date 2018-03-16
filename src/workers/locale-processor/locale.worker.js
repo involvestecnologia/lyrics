@@ -4,9 +4,6 @@ const Env = require('../../config/env');
 const logger = require('../../config/logger');
 const LocaleService = require('./locale.service');
 
-const WebLocaleService = new LocaleService(Env.LOCO_WEB_PROJECT_KEY);
-const HtmlLocaleService = new LocaleService(Env.LOCO_HTML_PROJECT_KEY);
-
 /**
  * @module LocaleProcessor
  */
@@ -16,43 +13,27 @@ const LocaleWorker = {
   running: false,
 
   /**
+   * @param {String} project Loco api key
    * @return {Promise<void>}
    */
-  processWebLocales: async () => {
-    if (!Env.LOCO_WEB_PROJECT_KEY) return;
+  processProjectLocales: async (project) => {
+    debug('processing locales');
 
-    debug('processing web locales');
+    const Service = new LocaleService(project);
+    const projectInfo = await Service.getProjectInfo();
 
-    const untranslated = await WebLocaleService.getUntranslatedTerms();
+    debug(`processing locales for ${projectInfo}`);
+
+    const untranslated = await Service.getUntranslatedTerms();
     const translations = await Promise.mapSeries(untranslated, async (term) => {
-      const translation = await WebLocaleService.translateTerm(term);
+      const translation = await Service.translateTerm(term);
       return {
         source: term[Object.keys(term)[0]].id,
         locales: translation,
       };
     });
 
-    return Promise.each(translations, t => WebLocaleService.addTempLocales(t));
-  },
-
-  /**
-   * @return {Promise<void>}
-   */
-  resolveHtmlLocales: async () => {
-    if (!Env.LOCO_HTML_PROJECT_KEY) return;
-
-    debug('processing html locales');
-
-    // const untranslated = await HtmlLocaleService.getUntranslatedTerms();
-    // const translations = await Promise.mapSeries(untranslated, async (term) => {
-    //   const translation = await LocaleService.translateTerm(term);
-    //   return {
-    //     source: term[Object.keys(term)[0]].id,
-    //     locales: translation,
-    //   };
-    // });
-    //
-    // return Promise.each(translations, t => HtmlLocaleService.addTempLocales(t));
+    return Promise.each(translations, t => Service.addTempLocales(t));
   },
 
   /**
@@ -65,12 +46,12 @@ const LocaleWorker = {
 
     LocaleWorker.running = true;
 
-    try {
-      await Promise.all([
-        LocaleWorker.processWebLocales(),
-        LocaleWorker.resolveHtmlLocales(),
-      ]);
+    if (!Env.LOCO_PROJECT_KEYS) throw new Error('Loco project keys not configured');
 
+    const projects = Env.LOCO_PROJECT_KEYS.split(',');
+
+    try {
+      await Promise.all(projects.map(project => LocaleWorker.processProjectLocales(project)));
       debug('worker halt');
     } catch (err) {
       logger.error(err);

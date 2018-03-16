@@ -13,6 +13,13 @@ class LocaleService {
   }
 
   /**
+   * @return {Promise<Object>}
+   */
+  async getProjectInfo() {
+    return this.Loco.getProjectInfo();
+  }
+
+  /**
    * @param term
    * @return {Promise<Object[]>}
    */

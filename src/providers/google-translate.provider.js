@@ -1,7 +1,6 @@
 const debug = require('../config/debug')('providers:google-translate');
 const translate = require('google-translate-api');
 const logger = require('../config/logger');
-const GlossaryProvider = require('../providers/glossary.provider');
 const Env = require('../config/env');
 
 /**
@@ -9,7 +8,7 @@ const Env = require('../config/env');
  */
 class GoogleTranslateProvider {
   constructor() {
-    this.Glossary = new GlossaryProvider(Env.GLOSSARY_FILE_PATH);
+    if (Env.GLOSSARY_FILE_PATH) this.glossary = require(Env.GLOSSARY_FILE_PATH);
   }
 
   /**
@@ -22,8 +21,7 @@ class GoogleTranslateProvider {
     debug(`translating "${text}" from "${from}" to "${to}"`);
 
     try {
-      text = this.Glossary.replace(text, from, to);
-
+      text = this.replaceGlossary(text, from, to);
       const translation = await translate(text, {
         from,
         to,
@@ -33,6 +31,40 @@ class GoogleTranslateProvider {
     } catch (err) {
       logger.error(`Error translating ${text} from ${from} to ${to}`, err);
     }
+  }
+
+  /**
+   * @param text
+   * @param from
+   * @param to
+   * @return {String}
+   */
+  replaceGlossary(text, from, to) {
+    if (!this.glossary) return text;
+
+    this.glossary.forEach((locale) => {
+      const fromLocale = locale[from];
+      let toLocale = locale[to];
+
+      const matches = text.match(new RegExp(`\\b${fromLocale}\\b`, 'ig')) || [];
+
+      matches.forEach((match) => {
+        const isUpperCase = match === match.toUpperCase();
+        const isFirstUpperCase = !isUpperCase && match[0] === match[0].toUpperCase();
+
+        if (!fromLocale || !toLocale) return;
+
+        if (isUpperCase) {
+          toLocale = toLocale.toUpperCase();
+        } else if (isFirstUpperCase) {
+          toLocale = toLocale.replace(toLocale[0], toLocale[0].toUpperCase());
+        }
+
+        text = text.replace(match, toLocale);
+      });
+    });
+
+    return text;
   }
 }
 
