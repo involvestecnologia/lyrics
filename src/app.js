@@ -6,6 +6,8 @@ const morgan = require('koa-morgan');
 const serve = require('koa-static-server');
 const cors = require('@koa/cors');
 
+require('./workers');
+
 /**
  * Bootstraps Koa application.
  *
