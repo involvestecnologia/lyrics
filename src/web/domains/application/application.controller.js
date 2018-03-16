@@ -1,4 +1,4 @@
-const debug = require('../../../config/debug')('web:domains:application:controller');
+const debug = require('../../../../config/debug')('web:domains:application:controller');
 const ApplicationService = require('./application.service');
 
 /**

@@ -1,8 +1,12 @@
+const path = require('path');
+
 /**
- * @see https://github.com/motdotla/dotenv#usage
- */
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
+* @see https://github.com/motdotla/dotenv#usage
+*/
+if (process.env.NODE_ENV === 'test') {
+  require('dotenv').config({ path: path.resolve(__filename, '../../.env.test') });
+} if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: path.resolve(__filename, '../../.env') });
 }
 
 /**
@@ -68,8 +72,8 @@ class Env {
   /**
    * @return {String}
    */
-  static get GLOSSARY_FILE_PATH() {
-    return process.env.GLOSSARY_FILE_PATH;
+  static get GLOSSARY_PATH() {
+    return process.env.GLOSSARY_PATH;
   }
 }
 

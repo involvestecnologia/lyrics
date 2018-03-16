@@ -1,4 +1,4 @@
-const pkg = require('../../package.json');
+const pkg = require('../package.json');
 
 global.APP_NAME = pkg.name;
 
@@ -11,12 +11,10 @@ debug('initializing app configuration');
 const Env = require('./env');
 const logger = require('./logger');
 const promise = require('./promise');
-const workers = require('./workers');
 
 module.exports = {
   Env,
   debug: debugModule,
   logger,
   promise,
-  workers,
 };

@@ -1,4 +1,4 @@
-const debug = require('../../../config/debug')('web:domains:application:routes');
+const debug = require('../../../../config/debug')('web:domains:application:routes');
 const Router = require('koa-router');
 
 const router = new Router();

@@ -1,7 +1,7 @@
-const debug = require('../config/debug')('providers:loco');
+const debug = require('../../config/debug')('providers:loco');
 const axios = require('axios');
 const qs = require('querystring');
-const logger = require('../config/logger');
+const logger = require('../../config/logger');
 
 const LOCO_BASE_URL = 'https://localise.biz';
 

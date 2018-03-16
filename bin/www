@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { logger, Env } = require('../src/config');
-const debug = require('../src/config/debug')('bin:www');
+const { logger, Env } = require('../config');
+const debug = require('../config/debug')('bin:www');
 const app = require('../src');
 
 debug('starting HTTP instance');

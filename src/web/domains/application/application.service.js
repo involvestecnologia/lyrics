@@ -1,4 +1,4 @@
-const debug = require('../../../config/debug')('web:domains:application:service');
+const debug = require('../../../../config/debug')('web:domains:application:service');
 const pkg = require('../../../../package.json');
 
 /**

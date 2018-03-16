@@ -1,5 +1,5 @@
-const { Env, logger } = require('./config');
-const debug = require('./config/debug')('index');
+const { Env, logger } = require('../config');
+const debug = require('../config/debug')('index');
 const Koa = require('koa');
 const helmet = require('koa-helmet');
 const morgan = require('koa-morgan');

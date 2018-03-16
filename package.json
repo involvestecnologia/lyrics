@@ -5,8 +5,8 @@
     "start": "dotenv nodemon ./bin/www",
     "eslint": "eslint . --ext .js",
     "test": "npm run test:unit && npm run test:integration",
-    "test:unit": "cross-env NODE_ENV=test mocha --exit \"src/**/*.unit.spec.js\"",
-    "test:integration": "cross-env NODE_ENV=test mocha --exit \"src/**/*.integration.spec.js\"",
+    "test:unit": "cross-env NODE_ENV=test mocha --exit \"src/**/*.unit.spec.js\" --require config",
+    "test:integration": "cross-env NODE_ENV=test mocha --exit \"src/**/*.integration.spec.js\" --require config",
     "coverage": "nyc --reporter=html --reporter=lcov npm test"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "koa-router": "^7.4.0",
     "koa-static-server": "^1.3.4",
     "split": "^1.0.1",
+    "valid-url": "^1.0.9",
     "winston": "^2.4.0"
   },
   "devDependencies": {
@@ -34,10 +35,14 @@
     "eslint": "^4.18.2",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0",
+    "globby": "^8.0.1",
     "mocha": "^5.0.3",
+    "nock": "^9.2.3",
     "nodemon": "^1.17.1",
     "nyc": "^11.4.1",
-    "sinon": "^4.4.2"
+    "portfinder": "^1.0.13",
+    "sinon": "^4.4.2",
+    "supertest": "^3.0.0"
   },
   "engines": {
     "node": ">=7.6.0"

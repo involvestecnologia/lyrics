@@ -1,7 +1,7 @@
-const debug = require('../../config/debug')('workers:locale-processor:worker');
+const debug = require('../../../config/debug')('workers:locale-processor:worker');
 const { CronJob } = require('cron');
-const Env = require('../../config/env');
-const logger = require('../../config/logger');
+const Env = require('../../../config/env');
+const logger = require('../../../config/logger');
 const LocaleService = require('./locale.service');
 
 /**
@@ -55,13 +55,14 @@ const LocaleWorker = {
       debug('worker halt');
     } catch (err) {
       logger.error(err);
+      throw err;
     } finally {
       LocaleWorker.running = false;
     }
   },
 };
 
-exports.name = LocaleWorker.name;
+exports.worker = LocaleWorker;
 
 /**
  * @param {String} cronPattern

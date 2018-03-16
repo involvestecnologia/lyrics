@@ -1,3 +1,5 @@
+/* eslint-disable padded-blocks */
+
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
@@ -10,7 +12,9 @@ before(() => {
 });
 
 describe('Application.Service', () => {
+
   describe('#status()', () => {
+
     it('should return application statuses', () => {
       const status = ApplicationService.status();
       status.should.be.an('object');

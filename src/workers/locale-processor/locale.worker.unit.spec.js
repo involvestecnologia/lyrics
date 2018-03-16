@@ -1,19 +1,36 @@
+/* eslint-disable padded-blocks */
+
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-
-const LocaleService = require('./locale.service');
+const LocoApiMock = require('../../../test/fixture/common/mocks/Loco.API.mock');
 
 before(() => {
   chai.use(chaiAsPromised);
   chai.should();
+
+  LocoApiMock.mock();
 });
 
-describe('ExampleProcessor', () => {
+after(() => {
+  LocoApiMock.clean();
+});
+
+const LocaleWorker = require('./locale.worker');
+
+describe('LocaleWorker', () => {
+
   describe('#run()', () => {
-    it('example', () => {
-      const Service = new LocaleService();
-      Service.should.be.an('object');
-      // TODO
+
+    it('should set worker to busy when running', (done) => {
+      const promise = Promise.resolve(LocaleWorker.worker.run());
+
+      LocaleWorker.worker.running.should.be.a('boolean').equal(true);
+
+      promise.finally(() => {
+        LocaleWorker.worker.running.should.be.a('boolean').equal(false);
+        done();
+      });
     });
+
   });
 });
