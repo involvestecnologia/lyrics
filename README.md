@@ -12,7 +12,7 @@ Automated translation of terms/assets/resources/messages is often required in or
 
 ## The Translation Flow
 
-//TODO 
+![The Translation Flow](https://github.com/involvestecnologia/lyrics/blob/master/doc/flow.png)
 
 ## Using a glossary
 
