@@ -7,7 +7,7 @@ before_install:
 cache: yarn
 install:
   - yarn install
-  - yarn install -g codeclimate-test-reporter
+  - npm install -g codeclimate-test-reporter
 script:
   - yarn eslint
   - yarn run coverage
