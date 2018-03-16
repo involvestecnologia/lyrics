@@ -1,7 +1,7 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
-const ExampleProcessor = require('./locale.worker');
+const LocaleService = require('./locale.service');
 
 before(() => {
   chai.use(chaiAsPromised);
@@ -11,7 +11,8 @@ before(() => {
 describe('ExampleProcessor', () => {
   describe('#run()', () => {
     it('example', () => {
-      ExampleProcessor.run();
+      const Service = new LocaleService();
+      Service.should.be.an('object');
       // TODO
     });
   });
