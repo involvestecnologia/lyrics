@@ -1,8 +1,22 @@
-# lyrics
+# Lyrics - A tool to automate machine translation from Loco projects 
 
 [![Build Status](https://travis-ci.org/involvestecnologia/lyrics.svg?branch=master)](https://travis-ci.org/involvestecnologia/lyrics)
 [![Code Climate](https://codeclimate.com/github/involvestecnologia/lyrics/badges/gpa.svg)](https://codeclimate.com/github/involvestecnologia/lyrics)
 [![Test Coverage](https://codeclimate.com/github/involvestecnologia/lyrics/badges/coverage.svg)](https://codeclimate.com/github/involvestecnologia/lyrics/coverage)
+
+## Getting Started
+
+This tool aims to automate the flow of machine translation of new terms on the Loco TMS (https://localise.biz/). 
+Automated translation of terms/assets/resources/messages is often required in order to avoid slow down deliveries due to untranslated terms, this tool was developed to do this work, helping the customers to have a better experience using your software while the new terms are waiting to be translated by a human translator.
+
+
+## The Translation Flow
+
+//TODO 
+
+## Using a glossary
+
+//TODO 
 
 Setup
 -----
