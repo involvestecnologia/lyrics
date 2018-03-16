@@ -22,7 +22,7 @@ const LocaleWorker = {
     const Service = new LocaleService(project);
     const projectInfo = await Service.getProjectInfo();
 
-    debug(`processing locales for ${projectInfo}`);
+    debug(`processing locales for ${projectInfo.project.name}`);
 
     const untranslated = await Service.getUntranslatedTerms();
     const translations = await Promise.mapSeries(untranslated, async (term) => {
@@ -55,7 +55,6 @@ const LocaleWorker = {
       debug('worker halt');
     } catch (err) {
       logger.error(err);
-      throw err;
     } finally {
       LocaleWorker.running = false;
     }
