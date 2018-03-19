@@ -17,8 +17,6 @@ const LocaleWorker = {
    * @return {Promise<void>}
    */
   processProjectLocales: async (project) => {
-    debug('processing locales');
-
     const Service = new LocaleService(project);
     const projectInfo = await Service.getProjectInfo();
 

@@ -27,10 +27,10 @@ class LocaleService {
     const locales = Object.keys(term);
     const termId = term[locales[0]].id;
 
-    let preferred = locales.find(locale => locale === preferredLang && term[locale].status === 'Translated');
-    preferred = preferred || locales.find(locale => term[locale].status === 'Translated');
+    let preferred = locales.find(locale => locale === preferredLang && term[locale].status !== 'Untranslated');
+    preferred = preferred || locales.find(locale => term[locale].status !== 'Untranslated');
 
-    if (!preferred) return logger.warn(`Unable to translate term "${termId}". No translated reference was found.`);
+    if (!preferred) throw new Error(`Unable to translate term "${termId}". No translated reference was found.`);
 
     const props = {};
     locales.filter(locale => (locale !== preferred)).forEach((locale) => {
