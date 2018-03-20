@@ -80,7 +80,7 @@ const findMatches = (glossary, fromLocale, expression) => ArrayUtils.flatten(glo
 /**
  * @module GoogleTranslateProvider
  */
-class GoogleTranslateProvider {
+class GlossaryProvider {
   constructor() {
     if (validUrl.isWebUri(Env.GLOSSARY_PATH)) {
       this.glossary = Env.GLOSSARY_PATH;
@@ -164,4 +164,4 @@ class GoogleTranslateProvider {
   }
 }
 
-module.exports = GoogleTranslateProvider;
+module.exports = GlossaryProvider;

@@ -28,7 +28,7 @@ describe('Application', () => {
 
     it('should return application statuses', () => {
       request.get('/')
-        .expect('200')
+        .expect(200)
         .then((status) => {
           status.should.be.an('object');
           status.status.should.be.a('string').equal('ok');
