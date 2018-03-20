@@ -2,7 +2,6 @@ const debug = require('../../../config/debug')('workers:locale-processor:service
 const LocoProvider = require('../../providers/loco.provider');
 const GoogleTranslateProvider = require('../../providers/google-translate.provider');
 const Env = require('../../../config/env');
-const logger = require('../../../config/logger');
 
 const preferredLang = Env.LOCALE_PROCESSOR_PREFERRED_LANGUAGE;
 
