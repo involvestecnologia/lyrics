@@ -16,7 +16,7 @@ before(() => {
 
 describe('GoogleTranslateProvider', () => {
 
-  describe('#replaceGlossary()', () => {
+  describe('#replaceTerms()', () => {
 
     it('should TODO', () => {
     });
