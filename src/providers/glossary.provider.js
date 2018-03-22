@@ -38,9 +38,9 @@ const match = (term, expression) => {
   const foundTerms = [];
 
   for (let start = 0, len = chars.length; start < len; start += 1) {
-    // A = [-, -, -, -, -, (5), 6, 7, 8, 9, 10] -> reduces A length from right to left
+    // A = [-, -, -, -, -, (5), 6, 7, 8, 9, 10] -> reduces A length from left to right
     for (let end = len; end > start; end -= 1) {
-      // B = [5, 6, 7, (8), -, -] -> reduces A remaining length from left to right
+      // B = [5, 6, 7, (8), -, -] -> reduces A remaining length from right to left
       const chunk = chars.slice(start, end).join('');
       if (chunk.toLowerCase() === term.toLowerCase()) {
         const surroundingChars = {
