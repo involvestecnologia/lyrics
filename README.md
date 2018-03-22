@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#">
-    <img src="https://raw.githubusercontent.com/involvestecnologia/lirycs/master/media/logo.jpg" alt="Lyrics" />
+    <img src="https://github.com/involvestecnologia/lyrics/blob/master/media/logo.jpg" alt="Lyrics" />
   </a>
 
   <h3 align="center">Lyrics</h3>
