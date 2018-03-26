@@ -95,10 +95,10 @@ class GlossaryProvider {
       debug('resolving glossary file from internet');
 
       try {
-        const { data } = await axios.get(this.glossary);
+        const { data } = await axios.get(this.glossaryPath);
         this.glossary = data;
       } catch (err) {
-        logger.error(`Error retrieving glossary file from: ${this.glossary}`, err);
+        logger.error(`Error retrieving glossary file from: ${this.glossaryPath}`, err);
         throw err;
       }
     } else {
