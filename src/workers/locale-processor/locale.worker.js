@@ -61,6 +61,8 @@ const LocaleWorker = {
 
 exports.worker = LocaleWorker;
 
+LocaleWorker.run();
+
 /**
  * @param {String} cronPattern
  * @return {CronJob}

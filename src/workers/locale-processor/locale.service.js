@@ -33,7 +33,10 @@ class LocaleService {
     if (!preferred) throw new Error(`Unable to translate term "${termId}". No translated reference was found.`);
 
     const props = {};
-    locales.filter(locale => (locale !== preferred)).forEach((locale) => {
+    locales.filter((locale) => {
+      const isPrefered = (locale === preferred);
+      return !isPrefered && term[locale].translate;
+    }).forEach((locale) => {
       debug(`translating term "${termId}" for locale "${locale}"`);
 
       props[locale] = this.GlossaryProvider
@@ -73,13 +76,21 @@ class LocaleService {
 
     const untranslatedAssets = assets.filter(asset => asset.progress.untranslated > 0);
 
-    return Promise.mapSeries(untranslatedAssets.slice(0, 10), (asset) => {
+    return Promise.mapSeries(untranslatedAssets.slice(0, 10), async (asset) => {
       const props = {};
       locales.forEach((locale) => {
         props[locale.code] = this.Loco.getTranslation(asset.id, locale.code);
       });
 
-      return Promise.props(props);
+      const translations = await Promise.props(props);
+      const keys = Object.keys(translations);
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const key of keys) {
+        if (!translations[key].translated) translations[key].translate = true;
+      }
+
+      return translations;
     });
   }
 }

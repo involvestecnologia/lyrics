@@ -48,8 +48,8 @@ const match = (term, expression) => {
           after: chars[end],
         };
 
-        const isFirstUpperCase = chunk[0] === chunk[0].toUpperCase();
-        const isUpperCase = !isFirstUpperCase && chunk === chunk.toUpperCase();
+        const isUpperCase = chunk === chunk.toUpperCase();
+        const isFirstUpperCase = !isUpperCase && (chunk[0] === chunk[0].toUpperCase());
 
         foundTerms.push({
           text: chunk,
@@ -132,14 +132,14 @@ class GlossaryProvider {
     const relevants = findMostRelevantTerms(matches);
 
     relevants.forEach((term) => {
-      let toTerm = this.glossary.find(g => (g[from] === term.text));
+      let toTerm = this.glossary.find(g => (g[from].toLowerCase() === term.text.toLowerCase()));
       if (!toTerm) return text;
 
       toTerm = toTerm[to];
 
       if (term.isFirstUpperCase) {
         toTerm = toTerm.replace(toTerm[0], toTerm[0].toUpperCase());
-      } else {
+      } else if (term.isUpperCase) {
         toTerm = toTerm.toUpperCase();
       }
 
