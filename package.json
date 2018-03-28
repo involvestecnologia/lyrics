@@ -1,7 +1,7 @@
 {
   "name": "lyrics",
   "description": "Locale auto translator for localise.biz",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "dotenv nodemon ./bin/www",
