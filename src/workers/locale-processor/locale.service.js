@@ -76,7 +76,7 @@ class LocaleService {
 
     const untranslatedAssets = assets.filter(asset => asset.progress.untranslated > 0);
 
-    return Promise.mapSeries(untranslatedAssets.slice(0, 10), async (asset) => {
+    return Promise.mapSeries(untranslatedAssets, async (asset) => {
       const props = {};
       locales.forEach((locale) => {
         props[locale.code] = this.Loco.getTranslation(asset.id, locale.code);
