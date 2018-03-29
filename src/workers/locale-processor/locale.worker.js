@@ -50,18 +50,16 @@ const LocaleWorker = {
 
     try {
       await Promise.all(projects.map(project => LocaleWorker.processProjectLocales(project)));
-      debug('worker halt');
     } catch (err) {
       logger.error(err);
     } finally {
       LocaleWorker.running = false;
+      debug('worker halt');
     }
   },
 };
 
 exports.worker = LocaleWorker;
-
-LocaleWorker.run();
 
 /**
  * @param {String} cronPattern
