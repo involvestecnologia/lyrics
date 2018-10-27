@@ -11,4 +11,7 @@ install:
 script:
   - yarn eslint
   - yarn run coverage
-  - codeclimate-test-reporter < coverage/lcov.info
+  - |
+    if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "false" ]; then
+      codeclimate-test-reporter < coverage/lcov.info
+    fi
