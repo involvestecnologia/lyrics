@@ -28,12 +28,10 @@ describe('Application', () => {
 
     it('should return application statuses', async () => {
       await request.get('/')
-        .expect(200)
-        .then((status) => {
-          status.should.be.an('object');
-          status.status.should.be.a('string').equal('ok');
-          status.name.should.be.a('string').equal(pkg.name);
-          status.version.should.be.a('string').equal(pkg.version);
+        .expect(200, {
+          status: 'ok',
+          name: pkg.name,
+          version: pkg.version,
         });
     });
   });
