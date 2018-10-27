@@ -10,6 +10,7 @@ rules:
   arrow-body-style: off
   no-underscore-dangle: off
   import/extensions: off
+  no-process-env: 2
 globals:
   process: on
   describe: on
