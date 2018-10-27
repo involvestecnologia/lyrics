@@ -26,8 +26,8 @@ describe('Application', () => {
 
   describe('/', () => {
 
-    it('should return application statuses', () => {
-      request.get('/')
+    it('should return application statuses', async () => {
+      await request.get('/')
         .expect(200)
         .then((status) => {
           status.should.be.an('object');
