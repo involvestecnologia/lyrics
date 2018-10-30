@@ -10,6 +10,7 @@ class LocaleService {
   constructor(projectKey) {
     this.Loco = new LocoProvider(projectKey);
     this.GlossaryProvider = new GlossaryProvider();
+    this.GoogleTranslateProvider = new GoogleTranslateProvider();
   }
 
   /**
@@ -41,7 +42,7 @@ class LocaleService {
 
       props[locale] = this.GlossaryProvider
         .replaceTerms(term[preferred].translation, preferred, locale)
-        .then(text => GoogleTranslateProvider
+        .then(text => this.GoogleTranslateProvider
           .translate(text, preferred, locale));
     });
 

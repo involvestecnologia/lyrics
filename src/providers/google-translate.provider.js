@@ -17,7 +17,7 @@ class GoogleTranslateProvider {
    * @param {String} to
    * @return {Promise<String>}
    */
-  static async translate(text, from, to) {
+  async translate(text, from, to) {
     debug(`translating "${text}" from "${from}" to "${to}"`);
 
     try {
@@ -26,7 +26,7 @@ class GoogleTranslateProvider {
         to,
       });
 
-      return translation.text;
+      return translation[0];
     } catch (err) {
       logger.error(`Error translating ${text} from ${from} to ${to}`, err);
     }
