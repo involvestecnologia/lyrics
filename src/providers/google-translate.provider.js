@@ -1,11 +1,16 @@
 const debug = require('../../config/debug')('providers:google-translate');
-const translate = require('google-translate-api');
+const { Translate } = require('@google-cloud/translate');
 const logger = require('../../config/logger');
+const Env = require('../../config/env');
 
 /**
  * @module GoogleTranslateProvider
  */
 class GoogleTranslateProvider {
+  constructor(projectId = Env.GOOGLE_TRANSLATE_PROJECT_ID) {
+    this.translator = new Translate({ projectId });
+  }
+
   /**
    * @param {String} text
    * @param {String} from
@@ -16,7 +21,7 @@ class GoogleTranslateProvider {
     debug(`translating "${text}" from "${from}" to "${to}"`);
 
     try {
-      const translation = await translate(text, {
+      const translation = await this.translator.translate(text, {
         from,
         to,
       });

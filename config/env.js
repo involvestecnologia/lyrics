@@ -1,3 +1,5 @@
+/* eslint-disable no-process-env */
+
 const path = require('path');
 
 /**
@@ -74,6 +76,15 @@ class Env {
    */
   static get GLOSSARY_PATH() {
     return process.env.GLOSSARY_PATH;
+  }
+
+  /**
+   * @see https://console.cloud.google.com/flows/enableapi?apiid=translate.googleapis.com
+   *
+   * @return {String}
+   */
+  static get GOOGLE_TRANSLATE_PROJECT_ID() {
+    return process.env.GOOGLE_TRANSLATE_PROJECT_ID;
   }
 }
 
