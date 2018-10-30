@@ -37,6 +37,22 @@ $ cd lyrics
 $ yarn install
 ```
 
+Google Translate
+-----
+Follow this link so you can setup google translate into your enviroment: https://cloud.google.com/translate/docs/
+
+Google Cloud Translate API needs some steps to work:
+- Google cloud project
+- Enable billing to your project (you will need an billing account and a credit card. Also, they won't charge you when your free use is done)
+- Enable Google Cloud Translate API into your project
+- Get credentials from the api
+
+All this can be found here:
+
+https://cloud.google.com/translate/docs/getting-started
+https://cloud.google.com/translate/docs/reference/libraries
+https://cloud.google.com/translate/docs/quickstart-client-libraries
+
 Development
 -----------
 * nodemon
