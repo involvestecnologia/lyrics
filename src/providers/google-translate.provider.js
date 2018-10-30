@@ -21,12 +21,12 @@ class GoogleTranslateProvider {
     debug(`translating "${text}" from "${from}" to "${to}"`);
 
     try {
-      const translation = await this.translator.translate(text, {
+      const [translation] = await this.translator.translate(text, {
         from,
         to,
       });
 
-      return translation[0];
+      return translation;
     } catch (err) {
       logger.error(`Error translating ${text} from ${from} to ${to}`, err);
     }
