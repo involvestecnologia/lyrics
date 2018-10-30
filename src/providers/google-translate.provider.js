@@ -17,16 +17,16 @@ class GoogleTranslateProvider {
    * @param {String} to
    * @return {Promise<String>}
    */
-  static async translate(text, from, to) {
+  async translate(text, from, to) {
     debug(`translating "${text}" from "${from}" to "${to}"`);
 
     try {
-      const translation = await this.translator.translate(text, {
+      const [translation] = await this.translator.translate(text, {
         from,
         to,
       });
 
-      return translation.text;
+      return translation;
     } catch (err) {
       logger.error(`Error translating ${text} from ${from} to ${to}`, err);
     }
