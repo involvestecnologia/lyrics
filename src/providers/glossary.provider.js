@@ -133,7 +133,7 @@ class GlossaryProvider {
 
     relevants.forEach((term) => {
       let toTerm = this.glossary.find(g => (g[from].toLowerCase() === term.text.toLowerCase()));
-      if (!toTerm) return text;
+      if (!toTerm || !toTerm[to]) return text;
 
       toTerm = toTerm[to];
 
