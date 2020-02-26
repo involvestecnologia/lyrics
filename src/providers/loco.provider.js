@@ -67,8 +67,15 @@ class LocoProvider {
   async getTranslation(id, locale) {
     debug(`retrieving translation for term "${id}", locale "${locale}"`);
 
-    const { data } = await this.request.get(`/api/translations/${id}/${locale}`);
-    return data;
+    try {
+      const { data } = await this.request.get(`/api/translations/${id}/${locale}`);
+      return data;
+    } catch (error) {
+      debug(`
+        retrieving translation for term "${id}", locale "${locale}".
+        The term will not be translated.
+      `);
+    }
   }
 
   /**
