@@ -42,7 +42,7 @@ const match = (term, expression) => {
     for (let end = len; end > start; end -= 1) {
       // B = [5, 6, 7, (8), -, -] -> reduces A remaining length from right to left
       const chunk = chars.slice(start, end).join('');
-      if (chunk.toLowerCase() === term.toLowerCase()) {
+      if (chunk && term && (chunk.toLowerCase() === term.toLowerCase())) {
         const surroundingChars = {
           before: chars[start - 1],
           after: chars[end],
