@@ -35,7 +35,7 @@ const debugLogger = winston.createLogger({
   ],
 });
 
-const logger = Env.EXTERNAL_LOGGER ? logstashLogger : debugLogger;
+const logger = Env.LOGGER_ADDRESS && Env.LOGGER_PORT ? logstashLogger : debugLogger;
 
 module.exports = logger;
 module.exports.stream = split().on('data', (message) => {

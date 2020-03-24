@@ -100,13 +100,6 @@ class Env {
   static get LOGGER_PORT() {
     return process.env.LOGGER_PORT;
   }
-
-  /**
-   * @return {Boolean}
-   */
-  static get EXTERNAL_LOGGER() {
-    return process.env.LOGGER_ADDRESS && process.env.LOGGER_PORT;
-  }
 }
 
 module.exports = Env;

@@ -1,17 +1,50 @@
 language: node_js
-node_js:
-  - 8.10.0
-before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - export PATH="$HOME/.yarn/bin:$PATH"
-cache: yarn
-install:
-  - yarn install
-  - npm install -g codeclimate-test-reporter
-script:
-  - yarn eslint
-  - yarn run coverage
-  - |
-    if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "false" ]; then
-      codeclimate-test-reporter < coverage/lcov.info
-    fi
+stages:
+  - test
+  - docker
+  - deploy
+services:
+  - docker
+jobs:
+  include:
+    - stage: test
+      name: "Test"
+      node_js: 8.10.0
+      before_install:
+        - curl -o- -L https://yarnpkg.com/install.sh | bash
+        - export PATH="$HOME/.yarn/bin:$PATH"
+      cache: yarn
+      install:
+        - yarn install
+        - npm install -g codeclimate-test-reporter
+      script:
+        - yarn eslint
+        - yarn run coverage
+        - |
+          if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "false" ]; then
+            codeclimate-test-reporter < coverage/lcov.info
+          fi
+    - stage: docker
+      name: "Docker Build & Push"
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker build -t involvestecnologia/lyrics:latest .
+        - |
+          if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "false" ]; then
+            docker push involvestecnologia/lyrics:latest
+          fi
+    - stage: deploy
+      name: "Deploy"
+      if: branch = master
+      install:
+        - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+        - chmod +x ./kubectl
+        - sudo mv ./kubectl /usr/local/bin/kubectl
+        - kubectl config set-cluster production --server=${KUBE_CLUSTER}
+        - kubectl config set-credentials travis --token=${KUBE_TOKEN}
+        - kubectl config set-context travis-deploy --cluster=production --user=travis
+        - kubectl config use-context travis-deploy
+
+      script:
+        - envsubst < k8s.yml | kubectl delete -f - || true
+        - envsubst < k8s.yml | kubectl create -f -
