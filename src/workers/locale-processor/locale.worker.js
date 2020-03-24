@@ -51,7 +51,7 @@ const LocaleWorker = {
     try {
       await Promise.all(projects.map(project => LocaleWorker.processProjectLocales(project)));
     } catch (err) {
-      logger.error(err);
+      logger.error('Failed to process projects locales', { error: err });
     } finally {
       LocaleWorker.running = false;
       debug('worker halt');

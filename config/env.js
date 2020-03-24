@@ -86,6 +86,27 @@ class Env {
   static get GOOGLE_TRANSLATE_PROJECT_ID() {
     return process.env.GOOGLE_TRANSLATE_PROJECT_ID;
   }
+
+  /**
+   * @return {Number}
+   */
+  static get LOGGER_ADDRESS() {
+    return process.env.LOGGER_ADDRESS;
+  }
+
+  /**
+   * @return {String}
+   */
+  static get LOGGER_PORT() {
+    return process.env.LOGGER_PORT;
+  }
+
+  /**
+   * @return {Boolean}
+   */
+  static get EXTERNAL_LOGGER() {
+    return process.env.LOGGER_ADDRESS && process.env.LOGGER_PORT;
+  }
 }
 
 module.exports = Env;
