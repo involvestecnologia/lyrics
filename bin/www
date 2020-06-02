@@ -21,8 +21,8 @@ const start = () => new Promise(async (resolve, reject) => {
 });
 
 start()
-  .then(() => logger.info('Application running on port', Env.PORT))
+  .then(() => logger.info(`Application running on port ${Env.PORT}`))
   .catch((err) => {
-    logger.error('Application crashed:', err);
+    logger.error('Application crashed:', { error: err });
     process.exit(1);
   });

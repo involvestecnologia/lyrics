@@ -28,7 +28,7 @@ class GoogleTranslateProvider {
 
       return translation;
     } catch (err) {
-      logger.error(`Error translating ${text} from ${from} to ${to}`, err);
+      logger.error(`Error translating ${text} from ${from} to ${to}`, { error: err });
     }
   }
 }

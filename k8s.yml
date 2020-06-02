@@ -1,0 +1,64 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lyrics
+  namespace: production
+  labels:
+    application: lyrics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: lyrics
+  template:
+    metadata:
+      labels:
+        application: lyrics
+    spec:
+      volumes:
+      - name: google-translate-key
+        secret:
+          secretName: google-translate-secret
+      containers:
+        - name: lyrics
+          image: involvestecnologia/lyrics:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: "PORT"
+              value: "3000"
+            - name: "NODE_ENV"
+              value: "production"
+            - name: "LOCO_PROJECT_KEYS"
+              value: "${LOCO_PROJECT_KEYS}"
+            - name: "LOCALE_PROCESSOR_CRON"
+              value: "*/5 * * * *"
+            - name: "LOCALE_PROCESSOR_PREFERRED_LANGUAGE"
+              value: "pt"
+            - name: "GLOSSARY_PATH"
+              value: "${GLOSSARY_PATH}"
+            - name: "GOOGLE_APPLICATION_CREDENTIALS"
+              value: "/usr/src/app/google/google-translate.json"
+            - name: "LOGGER_ADDRESS"
+              value: "${LOGGER_ADDRESS}"
+            - name: "LOGGER_PORT"
+              value: "${LOGGER_PORT}"
+          volumeMounts:
+            - name: google-translate-key
+              mountPath: "/usr/src/app/google/"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lyrics
+  namespace: production
+  labels:
+    application: lyrics
+spec:
+  type: NodePort
+  selector:
+    application: lyrics
+  ports:
+  - port: 3000
+    targetPort: 3000
