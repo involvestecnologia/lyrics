@@ -21,7 +21,7 @@ jobs:
         - yarn eslint
         - yarn run coverage
         - |
-          if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "false" ]; then
+          if [ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ]; then
             codeclimate-test-reporter < coverage/lcov.info
           fi
     - stage: docker
@@ -30,12 +30,12 @@ jobs:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker build -t involvestecnologia/lyrics:latest .
         - |
-          if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "false" ]; then
+          if [ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ]; then
             docker push involvestecnologia/lyrics:latest
           fi
     - stage: deploy
       name: "Deploy"
-      if: branch = master
+      if: branch = master AND type != pull_request
       install:
         - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
         - chmod +x ./kubectl
