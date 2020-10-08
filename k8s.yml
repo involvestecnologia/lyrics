@@ -44,6 +44,8 @@ spec:
               value: "${LOGGER_ADDRESS}"
             - name: "LOGGER_PORT"
               value: "${LOGGER_PORT}"
+            - name: "LOGGER_LEVEL"
+              value: "error"
           volumeMounts:
             - name: google-translate-key
               mountPath: "/usr/src/app/google/"

@@ -1,5 +1,5 @@
 const debug = require('../../config/debug')('providers:google-translate');
-const { Translate } = require('@google-cloud/translate');
+const { Translate } = require('@google-cloud/translate').v2;
 const logger = require('../../config/logger');
 const Env = require('../../config/env');
 
@@ -28,7 +28,7 @@ class GoogleTranslateProvider {
 
       return translation;
     } catch (err) {
-      logger.error(`Error translating ${text} from ${from} to ${to}`, { error: err });
+      logger.error(`Error translating ${text} from ${from} to ${to}`, { error: err.message });
     }
   }
 }
