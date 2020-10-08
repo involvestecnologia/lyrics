@@ -7,7 +7,7 @@ const GelfTransport = require('winston-gelf');
 debug('configuring logger');
 
 const logstashLogger = winston.createLogger({
-  level: 'error',
+  level: Env.LOGGER_LEVEL || 'error',
   defaultMeta: { application: global.APP_NAME },
   format: winston.format.simple(),
   transports: [

@@ -98,7 +98,7 @@ class GlossaryProvider {
         const { data } = await axios.get(this.glossaryPath);
         this.glossary = data;
       } catch (err) {
-        logger.error(`Error retrieving glossary file from: ${this.glossaryPath}`, { error: err });
+        logger.error(`Error retrieving glossary file from: ${this.glossaryPath}`, { error: err.message });
         throw err;
       }
     } else {

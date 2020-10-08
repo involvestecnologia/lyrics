@@ -100,6 +100,13 @@ class Env {
   static get LOGGER_PORT() {
     return process.env.LOGGER_PORT;
   }
+
+  /**
+   * @return {String}
+   */
+  static get LOGGER_LEVEL() {
+    return process.env.LOGGER_LEVEL;
+  }
 }
 
 module.exports = Env;

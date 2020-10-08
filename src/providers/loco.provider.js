@@ -26,7 +26,8 @@ class LocoProvider {
       const { data: info } = await this.request.get('/api/auth/verify');
       return info;
     } catch (err) {
-      logger.error(`Error retrieving project info for key "${this.projectKey}"`, { error: err });
+      logger.error(`Error retrieving project info for key "${this.projectKey}"`, { error: err.message });
+      throw err;
     }
   }
 
@@ -45,7 +46,7 @@ class LocoProvider {
         flag: 'provisional',
       }));
     } catch (err) {
-      logger.error(`Error creating translation for term "${term}", locale "${locale}"`, { error: err });
+      logger.error(`Error creating translation for term "${term}", locale "${locale}"`, { error: err.message });
     }
   }
 
@@ -70,11 +71,8 @@ class LocoProvider {
     try {
       const { data } = await this.request.get(`/api/translations/${id}/${locale}`);
       return data;
-    } catch (error) {
-      debug(`
-        retrieving translation for term "${id}", locale "${locale}".
-        The term will not be translated.
-      `);
+    } catch (err) {
+      logger.error(`Error retrieving translation for term "${id}", locale "${locale}".The term will not be translated.`, { error: err.message });
     }
   }
 

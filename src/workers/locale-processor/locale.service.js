@@ -3,6 +3,7 @@ const LocoProvider = require('../../providers/loco.provider');
 const GoogleTranslateProvider = require('../../providers/google-translate.provider');
 const GlossaryProvider = require('../../providers/glossary.provider');
 const Env = require('../../../config/env');
+const { logger } = require('../../../config');
 
 const preferredLang = Env.LOCALE_PROCESSOR_PREFERRED_LANGUAGE;
 
@@ -78,6 +79,7 @@ class LocaleService {
     const untranslatedAssets = assets.filter(asset => asset.progress.untranslated > 0);
 
     return Promise.mapSeries(untranslatedAssets, async (asset) => {
+      logger.info(`translating term ${asset.id}`);
       const props = {};
       locales.forEach((locale) => {
         props[locale.code] = this.Loco.getTranslation(asset.id, locale.code);
