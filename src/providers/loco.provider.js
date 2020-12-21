@@ -16,6 +16,8 @@ class LocoProvider {
       headers: {
         Authorization: `Loco ${projectKey}`,
       },
+      timeout: 60000,
+      httpsAgent: new https.Agent({ keepAlive: true })
     });
   }
 
