@@ -15,10 +15,20 @@ spec:
       labels:
         application: lyrics
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: application
+                    operator: In
+                    values:
+                      - lyrics
+              topologyKey: "kubernetes.io/hostname"
       volumes:
-      - name: google-translate-key
-        secret:
-          secretName: google-translate-secret
+        - name: google-translate-key
+          secret:
+            secretName: google-translate-secret
       containers:
         - name: lyrics
           image: involvestecnologia/lyrics:latest
@@ -62,5 +72,5 @@ spec:
   selector:
     application: lyrics
   ports:
-  - port: 3000
-    targetPort: 3000
+    - port: 3000
+      targetPort: 3000
