@@ -88,6 +88,27 @@ class Env {
   }
 
   /**
+   * @return {String}
+   */
+  static get OPENAI_API_KEY() {
+    return process.env.OPENAI_API_KEY;
+  }
+
+  /**
+   * @return {String}
+   */
+  static get OPENAI_TRANSLATION_MODEL() {
+    return process.env.OPENAI_TRANSLATION_MODEL;
+  }
+
+  /**
+   * @return {String} 'google' or 'openai'
+   */
+  static get PREFFERED_TRANSLATION_PROVIDER() {
+    return process.env.PREFFERED_TRANSLATION_PROVIDER || 'google';
+  }
+
+  /**
    * @return {Number}
    */
   static get LOGGER_ADDRESS() {
