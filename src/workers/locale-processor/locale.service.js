@@ -1,17 +1,32 @@
 const debug = require('../../../config/debug')('workers:locale-processor:service');
 const LocoProvider = require('../../providers/loco.provider');
 const GoogleTranslateProvider = require('../../providers/google-translate.provider');
+const OpenaiProvider = require('../../providers/openai.provider');
 const GlossaryProvider = require('../../providers/glossary.provider');
 const Env = require('../../../config/env');
 const { logger } = require('../../../config');
 
 const preferredLang = Env.LOCALE_PROCESSOR_PREFERRED_LANGUAGE;
+const prefferedProvider = Env.PREFFERED_TRANSLATION_PROVIDER;
+
+const getProvider = () => {
+  const providers = {
+    google: GoogleTranslateProvider,
+    openai: OpenaiProvider,
+  };
+
+  const Provider = providers[prefferedProvider];
+
+  if (!Provider) throw new Error(`Invalid translation provider: ${Env.PREFFERED_TRANSLATION_PROVIDER}`);
+
+  return new Provider();
+};
 
 class LocaleService {
   constructor(projectKey) {
     this.Loco = new LocoProvider(projectKey);
     this.GlossaryProvider = new GlossaryProvider();
-    this.GoogleTranslateProvider = new GoogleTranslateProvider();
+    this.TranslationProvider = getProvider();
   }
 
   /**
@@ -43,7 +58,7 @@ class LocaleService {
 
       props[locale] = this.GlossaryProvider
         .replaceTerms(term[preferred].translation, preferred, locale)
-        .then(text => this.GoogleTranslateProvider
+        .then(text => this.TranslationProvider
           .translate(text, preferred, locale));
     });
 
